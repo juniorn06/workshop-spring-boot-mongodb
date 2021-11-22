@@ -32,11 +32,18 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(obj));
     }
 
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO objDto){
         User obj = service.fromDTO(objDto);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build(); //created: retorna o código 201(código de resposta ao criar um recurso
+        return ResponseEntity.created(uri).build(); //created: retorna o código 201(código de resposta ao criar um recurso)
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
